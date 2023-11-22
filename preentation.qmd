@@ -1,0 +1,276 @@
+---
+title: "R"
+author: "Erik Bülow"
+echo: true
+format: 
+  revealjs:
+    incremental: true
+    theme: night
+editor: visual
+---
+
+```{r}
+citation()
+```
+
+## Programeringsspråk
+
+-   Öpen källkod: gratis öl och yttrandefrihet!
+
+    -   Akademiskt statistikverktyg (jmfr SAS inom läkemedelsindustrin och Python inom "ML/Data science")
+
+-   v\. 1 släpptes 2020-02-29.
+
+-   Version 4.3.2 ("Eye Holes") släpptes 2023-10-23
+
+-   Terminalbaserat skriptspråk men ofta kombinerat med RStudio (Posit)[^1]
+
+[^1]: Eller VS Code för eventuellt vana programmerare.
+
+## Interaktiv användning
+
+Kan användas som terminalbaserad (mini)räknare
+
+```{r}
+1+1
+pi
+log(exp(1))
+cos(pi) + 42 / 26 - atan(37)
+print("Hej på dig!")
+```
+
+## Tilldelning/återanvändning
+
+Det som skrivs i konsolen "printas" direkt.
+
+Det man vill spara tilldelas med `<-` [^2]
+
+[^2]: alt `->`, `=` (eller överkurs `<<-)`
+
+```{r}
+(x <- 1)
+(y <- 2)
+(z <- x + y)
+```
+
+Case sensitive (`ABC != abc != Abc != aBc != …`)
+
+## Funktioner
+
+-   Funktioner används för att göra saker med data.
+
+-   Skriver man `namnet_på_funktionen` ser man hur den är definierad (öppen källkod; överkurs)
+
+-   Skriver man parenteser efter så anropar man funktionen: `namnet_på_funktionen()`
+
+-   De flesta funktioner har ett eller flera argument `namnet_på_funktionen(a = x, b = y, c = z)`
+
+-   Dessa används dels för att förmedla vilken data funktionen ska användas med, dels för andra val
+
+-   Skriv `?funktionsnamn` i konsolen (eller tryck F1) för att läsa hur en funktion använda
+
+## Egna funktioner
+
+```{r}
+function() {} # En namnlös function som inte gör ngt
+strunt_funktion <- function() {} # En namngiven funktion som inte gör ngt
+strunt_funktion()
+hello_world <- function() "Hello world!" # En funktion som hälsar
+hello_world()
+hello_you <- function(who) paste0("Hello ", who, "!")
+hello_you("Svenne Banan")
+addera <- function(x, y) x + y # funktion som adderar två argument
+addera(2, 3)
+addera(1:10, 8) # funkar automatiskt med vektorer
+addera(Sys.Date(), 1) # Viklen dag är det imorgon?
+```
+
+## Vektorer
+
+```{r}
+1 # numeriskt värde (eg. vektor av längd = 1)
+c(1, 1, 2, 3, 5, 8) # numerisk vektor
+1:10 # numerisk vektor 1-10
+c("hej", "på", "dig") # character vector
+factor(c(2, 3, 1), 1:3, c("foo", "bar", "baz")) # kategorisk variabel
+as.Date(c("1985-05-04", "2023-11-22", "2024-01-26")) # datum
+c(TRUE, FALSE, NA) # boolsk/logisk vektor
+```
+
+## Data frame
+
+Datastruktur som liknar Excel-blad eller data i SPSS.
+
+Kolumner består av vektorer av olika sorter.
+
+```{r}
+#| eval: false
+iris # printa data frame i konsolen
+View(iris) # Öppna en mer grafisk struktur
+tail(iris) # titta på de sista 6 raderna
+str(iris) # få information om strukturen
+```
+
+```{r}
+head(iris, 5) # Visa 5 första raderna
+```
+
+## Skript
+
+-   Bäst att inte skriva direkt i konsolen utan i en textfil som sparas regelbundet.
+
+-   Döp den till `vad_du_vill.R`
+
+-   Dock rekommenderat att filnamnet (inkl överordnade mappar) endast har tecken A-Z, a-z, 0-9 resp "\_"
+
+-   Allt i skriptet är R-kod utom rader som inleds med `#`. Dessa är kommentarer till mänskliga läsare (inkl ditt eget framtida jag).
+
+-   Inte så noga med mellanslag/tabbar/radlängder etc i början men <https://style.tidyverse.org/> rekommenderas för större projekt!
+
+## Quarto
+
+-   Blanda kommentarer/R-kod/figurer/tabeller i ett och samma dokument
+
+-   Fungerar lite som en vanlig orbehandlare
+
+-   Denna presentation är gjord på detta sätt!
+
+## Projekt
+
+-   Rekommenderas att använda en vald katalog som "Projekt" i RStudio. Då vet man alltid var man befinner sig.
+
+-   Viktigt när man läser in filer (data) eller sparar resultat (figurer/tabeller/rapporter).
+
+-   R startas alltid med ett "working directory" i en mapp/katalog på datorn (t ex den mapp där en R-fil man dubbelklickat på ligger eller där RStudio-projektet finns).
+
+```{r}
+getwd()
+```
+
+## Egen data
+
+-   Ofta lättast sköta själva datainmatningen/förberedelsen i Excel, SPSS eller annat program.
+
+-   Spara filen i "RStudio-projektet" t ex i en undermapp "data".
+
+-   Importera data via grafiska gränssnittet i RStudio
+
+-   Kopiera genererade inläsningskommandon till skriptfilen.
+
+## Paket
+
+-   Alla funktioner (med mera) finns i paket.
+
+-   Några paket kommer förinstallerade.
+
+-   Detta behöver man (nästan aldrig) tänka på!
+
+## base
+
+```{r}
+?base
+ls("package:base")
+```
+
+## default och recommended
+
+```{r}
+getOption("defaultPackages")
+names(which(installed.packages()[ ,"Priority"] == "recommended", ))
+```
+
+## CRAN
+
+-   Kvalitetssäkrade och lättinstallerade tilläggspaket finns i [The Comprehensive R Archive Network](https://cran.r-project.org/)
+
+-   Installera via grafiskt gränssnit (GUI): Packages \> Install
+
+-   eller kommando: `install.packages("name_of_package")`
+
+## Andra paketkällor (överkurs)
+
+-   [GitHub](https://github.com/topics/r) (BitBucket, GitLab)
+
+-   [BioConductor](https://new.bioconductor.org/)
+
+-   [R-forge](https://r-forge.r-project.org/)
+
+-   <https://r-universe.dev/search/>
+
+-   "varsom-helst-ifrån" (Zip-filer etc från hemsidor/kollegor/byrålådor)
+
+## Använda funktioner från installerade paket
+
+-   Installerade paket måste pekas ut explicit vid användning:
+
+    -   Ladda hela paketet (rekommenderas i början):
+
+        -   `library("name_of_package")` i början av skriptet
+
+        -   `name_of_function(x, y, x)` för att sedan anropa funktionen
+
+    -   Referera varje funktion explicit varje gång:
+
+        -   `name_of_package::name_of_function()`
+
+------------------------------------------------------------------------
+
+![](images/Skärmavbild%202023-11-22%20kl.%2010.52.14.png)
+
+## Tibble
+
+Delar alla egenskaper med data.frames men lite snyggare/modernare
+
+```{r}
+library(tidyverse)
+as_tibble(iris)
+glimpse(iris)
+```
+
+## Pipe
+
+`|>` (eller tidigare `%>%`)
+
+```{r eval=FALSE}
+# Alt 1: Modifiera ett objekt stegvis med massa nya nammn på vägen
+steg1 <- foo(x)
+steg2 <- bar(steg1)
+steg3 <- baz(steg2)
+
+# Alt 2: Funktion i funktion i funktion
+steg3 <- baz(bar(foo(x)))
+
+# Alt 3: Med |> (lättare att läsa och skriva)
+steg3 <- x |> foo() |> bar() |> baz()
+```
+
+## Att lära sig
+
+-   Google är din vän!
+
+-   Övning ger färdighet!
+
+-   <https://www.r-project.org/help.html>
+
+-   <https://education.rstudio.com/learn/>
+
+-   <https://stackoverflow.com/questions/tagged/r>
+
+------------------------------------------------------------------------
+
+![](images/Skärmavbild%202023-11-22%20kl.%2009.15.50.png)
+
+## Överkurs
+
+Om du programmerat tidigare:
+
+-   interaktivt skriptspråk (kräver ingen kompilering)
+
+-   Ej statistik typat (extremt flexibelt men lätt att skjuta sig själv i foten)
+
+-   Nyttjar viss C/C++/Fortran-kod i bakgrunden
+
+> • Everything that exists is an object.\
+> • Everything that happens is a function call."
+>
+> --- John Chambers
