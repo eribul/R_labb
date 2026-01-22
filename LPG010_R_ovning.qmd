@@ -1,0 +1,523 @@
+---
+format:
+  revealjs:
+    number-sections: true
+    number-depth: 1
+    incremental: false
+    theme: blood
+    margin: 0.01
+    smaller: true
+    scrollable: true
+    slide-number: true
+    preview-links: true
+    touch: true
+echo: true
+title: R + RStudio
+subtitle: LPG010 (VT26)
+institute: Avdelningen för samhällsmedicin och folkhälsa
+author: Erik Bülow
+editor: 
+  markdown: 
+    wrap: 72
+---
+
+## R: Programeringsspråk
+
+-   `Öppen källkod`: ("free" as in ...) gratis öl 🍺 och yttrandefrihet 📣!
+
+-   **Akademiskt statistikverktyg** 🎓 (jmfr [SAS](https://www.sas.com/sv_se/home.html) inom läkemedelsindustrin 💊🏭 och [Python](https://www.python.org/) inom "ML/Data science" 👨‍💻)
+
+-   v\. 1 släpptes 🗓️ 2000-02-29 (utvecklats sedan 1993)
+
+-   Version 4.5.2 ("Eye Holes") släpptes 🗓️ 2025-10-31
+
+-   Interaktivt  skriptspråk men ofta kombinerat med `RStudio` (Posit)
+
+
+::: notes
+Gratis öl och yttrandefrihet travesterar sloga "free as in free beer and free speach", det vill säga både "gratis" och "fritt" (GNU/GPL etc).
+:::
+
+## R: Varifrån?
+
+```{r}
+print(citation(), bibtex = FALSE)
+```
+
+::: notes
+Ev kort om R foundation och R Core team (men förmodligen överkurs)? Att man bör citera eftersom detta är enda sättet de får erkännande för sin insats (inga pengar), samt så klart att man i en artikel etc behöver veta vilken version etc som använts (eller ännu hellre dela kod via Zenodo etc men överkurs).
+:::
+
+## R: Varför?
+
+-  💪 `Extremt flexibelt`: databearbetning, analys, modellering, visualisering och rapportering
+
+-   💰 Gratis och transparent
+
+-   👨‍👩‍👧‍👧 Användargrupper ([User groups](https://www.meetup.com/stockholmr/)) och stor hjälpsamhet på nätet
+
+-   Lätt att dela kod (jmfr. att beskriva manuella GUI-steg)
+
+-   Mogen kodbas som förbättrats över tid (utvecklats i > 30 år; jmfr t ex [Julia](https://julialang.org/))
+
+
+## R: Varför inte?
+
+-   Hög inlärningströskel ⛰️
+
+-   Kräver att man programmerar[^2] 🧑‍💻
+
+-   Lite annorlunda jämfört med andra programmeringsspråk[^3]
+
+-   Finns inget företag eller dylikt som kan ge officiell support (dock inte sämre i praktiken)
+
+[^2]: Finns dock [flera alternativ](https://r4stats.com/articles/software-reviews/r-gui-comparison/) som också lägger på ett grafiskt gränssnitt 
+
+[^3]: Överkurs: dynamiskt typat, non-standard evaluation ("computing on the language"), funktioner är "first class objects" (funktionellt), vektoriserad semantik, copy-on-modify, allt är objekt, flera parallella objektorienterade system, designat för interaktiv analys. 
+
+::: notes
+Kan ev nämna att trots avsaknaden av företagsavsändare har valideringar visat att själva GNU-R har like hög kvalitet som kommersiella motsvarigheter (t ex SAS) och att detta egentligen inte behöver vara ett hinder ens i förhållande till exempelvis FDA.
+:::
+
+## R: När ska du välja R istf SPSS?
+
+-   Om du lockas av programmering 💻
+
+-   Om du ser en framtid inom kvantitativ forskning (doktorera?) 🧑‍🔬
+
+-   Om du vill kunna göra mer avancerade saker som inte stöds av SPSS
+
+-   Om du vill kunna hantera allt från databearbetning, till analys och raportering
+
+-   Om din handledare tycker det 😀
+
+
+## RStudio
+
+-   Integrerad utvecklingsmiljö (*Integrated Development Environment; IDE*)
+
+-   Gratis i grundutförande
+
+-   Från företaget [Posit](https://posit.co/) (tidigare RStudio)
+
+-   Public Benefit Corporation ([PBC](https://posit.co/about/pbc-report/))
+
+::: notes
+Dags att öppna upp RStudio.
+
+PBC = företaget vill inte bara tjäna pengar utan har ett genuint intresse för användarna etc.
+:::
+
+## Positron?
+
+- RStudio släpptes första gången 2011 och bygger nu till viss del på gammal teknik
+- Uppdateras doock fortfarande och utvecklingen fortsätter
+- Samma företag har dock mer nyligen släppt alternativet [Positron](https://positron.posit.co)
+- Modernare och bygger på en öppen version av VS Code (bekant för många programmerare)
+- Jobbar du med väldigt stora dataset eller är van programmerare sedan tidigare kan vi rekommendera Positron
+- För övriga rekommenderas fortfarande RStuido
+
+## R: Interaktiv användning
+
+Kan användas som terminalbaserad (mini)räknare
+
+```{r}
+1 + 1
+pi
+log(exp(1))
+cos(pi) + 42 / 26 - atan(37)
+print("Hej på dig!")
+```
+
+::: notes
+RStudio:
+
+1.  Rikta fokus mot konsolen
+2.  Exekvera några enkla saker där (t ex samma som ovan; kopiera via funktionen i presentationen som visas parallellt)
+:::
+
+## R: Tilldelning/återanvändning
+
+Det som skrivs i konsolen "printas" direkt.
+
+Det man vill spara tilldelas med `<-` (eller `=`)
+
+Kortkommando: Alt/option + "-"
+
+```{r}
+x <- 1
+x
+y <- 2
+y
+z <- x + y
+z
+```
+
+Case sensitive (`ABC != abc != Abc != aBc != …`)
+
+::: notes
+Kpoiera och kör i RSTudio samt visa kortkommandot.
+
+Visa även att `X` inte finns (till skillnad från x.
+:::
+
+## R: Datatyper
+
+-   **logical**: `TRUE`, `FALSE`
+
+-   **numeric**: `-23, 2.123, pi`
+
+-   **character**: `"hi", "low"`
+
+-   **Datum**: kan vara lite komplicerat ...
+
+    -   Lättast lagra som "character" med format `yyyy-mm-dd` och tolka via `as.Date()`
+
+    -   Använd paket[^4] så som `{clock}` eller `{lubridate}`
+
+[^4]: Vi återkommer till vad ett "paket" är senare.
+
+::: notes
+Kan komplicera saker med referens till integers, floats, doubles etc vilket dyker upp i t ex tidyverse (men inte så viktigt i base R). Diskuterades at även ta med faktor men att vi skippar det i detta skede.
+:::
+
+## R: Vektorer
+
+```{r}
+c(1, 1, 2, 3, 5, 8) # numerisk vektor
+c(TRUE, FALSE) # boolsk/logisk vektor
+c("hej", "på", "dig") # character vector
+as.Date(c("1985-05-04", "2023-11-22", "2024-01-26")) # datum
+```
+
+## R: Funktioner
+
+-   Funktioner används för att göra saker med data.
+
+-   Skriver man `namnet_på_funktionen` ser man hur den är definierad
+
+-   Skriver man parenteser efter så anropar man funktionen: `namnet_på_funktionen()`
+
+-   De flesta funktioner har ett eller flera argument `namnet_på_funktionen(a = x, b = y, c = z)`
+
+-   `?funktionsnamn` i konsolen (eller tryck F1) för hjälp
+
+## R: Exempel: `c()`
+
+Kombinerar/konkatinerar värden till vektorer
+
+```{r}
+c
+?c
+c()
+c(1, 2, 3)
+```
+
+::: notes
+Visa ffa hjälpen ?c och förklara de olika delarna (description, usage, arguments, details, value, exempel etc). Detta bör få ta lite tid! Betona att hjälpen skrivs av de som gör paketet och att olika "författare" kan tänka ganska olika (inte helt standardiserat).
+:::
+
+## R: Egna funktioner {visibility="hidden"}
+
+```{r}
+function() {} # En namnlös function som inte gör ngt
+strunt_funktion <- function() {} # En namngiven funktion som inte gör ngt
+strunt_funktion()
+hello_world <- function() "Hello world!" # En funktion som hälsar
+hello_world()
+hello_you <- function(who) paste0("Hello ", who, "!")
+hello_you("Svenne Banan")
+addera <- function(x, y) x + y # funktion som adderar två argument
+addera(2, 3)
+addera(1:10, 8) # funkar automatiskt med vektorer
+addera(Sys.Date(), 1) # Viklen dag är det imorgon?
+```
+
+## R: Saknade värden
+
+-   Kodas som `NA` (Non Available eller Non Applicable)
+
+-   Funkar oftast att bara skriva just `NA` (inga citationstecken)[^5]
+
+-   Alla datatyper kan vara `NA`
+
+    ```{r}
+c(1, 2, NA)
+c("banan", NA, "get")
+c(TRUE, FALSE, NA)
+    ```
+
+[^5]: Överkurs: ibland behöver man göra skillnad på olika sorters `NA` genom att skriva t ex `NA_integer_, NA_character_, NA_real_, ...`
+
+## R: Hantera saknade värden
+
+-   Vad är medelvärdet av `1, 37, 42`?
+    ```{r}
+mean(1, 37, 42) # OBS! Glöm inte c(...)
+    ```
+
+    ```{r}
+mean(c(1, 37, 42))
+    ```
+
+-   Vad är medelvärdet av `1, 37, NA, 42`?
+
+    ```{r}
+mean(c(1, 37, NA, 42))
+    ```
+
+-   Medelvärdet av en samling värden, varav ett okänt, blir förstås också okänt
+
+-   Hur kan vi hantera detta? Kolla `?mean`
+
+    ```{r}
+mean(c(1, 37, NA, 42), na.rm = TRUE)
+    ```
+
+## R: Data frame
+
+Datastruktur som liknar Excel-blad eller data i SPSS.
+
+Kolumner består av vektorer av olika sorter.
+
+```{r}
+#| eval: false
+iris # printa data frame i konsolen
+View(iris) # Öppna en mer grafisk struktur
+tail(iris) # titta på de sista 6 raderna
+str(iris) # få information om strukturen
+```
+
+```{r}
+head(iris, 5) # Visa 5 första raderna
+```
+
+::: notes
+Visa hur det ser ut i RStudio, ffa View()
+:::
+
+## RStudio: Projekt
+
+-   Samla alla filer (data/R-skript/resultat) i projekt-mapp på datorn
+
+-   Bäst om sökvägen endast består av A-Z/a-z, siffror samt "\_" (undvik å, ä, ö samt mellanslag):
+
+    -   Windows: `C:\User\banane\Documents\nice_project`
+    
+    -   Mac: `/Users/xbuler/Documents/nice_project`
+
+
+::: notes
+Visa hur man skapar projekt i RStudio i en godtycklig mapp Fokusera på "Files"-tabben och att kan öppna filer etc därifrån.
+
+Påpeka att det som handlar om sökvägar kan vara knepigt att ta in just nu men att det kan bli relevant om man jobbar med eget projekt senare.
+:::
+
+## RStudio: Skript
+
+-   Bäst att inte skriva direkt i konsolen utan i en textfil som sparas regelbundet.
+
+-   Döp den till `vad_du_vill.R`
+
+-   Allt i skriptet är R-kod utom rader som inleds med `#`. Dessa är kommentarer till mänskliga läsare (inkl ditt eget framtida jag).[^6]
+
+[^6]: Överkurs: Inte så noga med mellanslag/tabbar/radlängder etc i början men at använda en [stil-guide](https://style.tidyverse.org/) rekommenderas för större projekt! Detta kan automatiseras mha tillägget [Air](https://posit-dev.github.io/air/editor-rstudio.html).
+
+::: notes
+Fokusera nu på texteditorn i R.
+
+Visa att man kan skapa ny fil via symbolen uppe till vänster.
+
+Att man kan exekvera gm Ctrl/Cmd + Enter
+
+Spara filen som "main.R" i projektet.
+:::
+
+## RStudio: Quarto
+
+-   Blanda kommentarer/R-kod/figurer/tabeller i ett och samma dokument
+
+-   Fungerar lite som en vanlig orbehandlare
+
+-   Denna presentation är gjord på detta sätt!
+
+- R+RStudio (med [Quarto](https://quarto.org) + vissa tilläggspaket) kan helt ersätta behovet av MS Word för rapportskrivning, MS PowerPoint för presentation och EndNote för referenshantering
+
+::: notes
+Skapa Quarto-dokument. Fyll i via GUI. Exekvera med default-värden.
+:::
+
+## R/RStudio: Data
+
+-   Ofta lättast sköta själva datainmatningen/förberedelsen i Excel, SPSS eller annat program.
+
+-   Spara filen i "RStudio-projektet" t ex i en undermapp "data".
+
+-   Importera data via grafiska gränssnittet i RStudio
+
+-   Kopiera genererade inläsningskommandon till skriptfilen.
+
+::: notes
+Utgå från samma fil som används i övningen och visa hur man läser in den via Import dataset
+:::
+
+## R: Sökvägar
+
+-   I Windows: Byt ut `\` mot `/`  (alt `\\`) vid referens till fil:
+
+    -   ~~`C:\User\banane\Documents\nice_project`~~
+    -   `C:/User/banane/Documents/nice_project`
+
+-   Använd *relativa* sökvägar inom projektet
+
+    -   ~~`C:/User/banane/Documents/nice_project/data/my_data.xlsx`~~
+    -   `data/my_data.xlsx`
+
+- t ex: `df <- readxl::read_excel("data/my_data.xlsx")`
+
+## R/RStudio: Paket
+
+-   Alla funktioner (med mera) finns i paket.
+
+-   Några paket kommer förinstallerade.
+
+-   Detta behöver man (nästan aldrig) tänka på!
+
+::: notes
+Visa Packages-tabben. Inte hur man installerar men att alla paket listas där.
+:::
+
+## R: base {visibility="hidden"}
+
+```{r}
+?base
+ls("package:base")
+```
+
+::: notes
+Skriv ?base och klicka vidare till index-filen över alla funktioner. Sök inom filen efter "mean" och öppna hjälpfilen.
+:::
+
+## R: default och recommended {visibility="hidden"}
+
+```{r}
+getOption("defaultPackages")
+names(which(installed.packages()[, "Priority"] == "recommended", ))
+```
+
+::: notes
+Överkurs: Utöver base finns några ytterligare paket med lite särställning som förinstalleras.
+:::
+
+## R: CRAN
+
+-   Kvalitetssäkrade och lättinstallerade tilläggspaket finns i [The Comprehensive R Archive Network](https://cran.r-project.org/)
+
+-   Installera via grafiskt gränssnit (GUI): Packages \> Install
+
+-   eller kommando: `install.packages("name_of_package")`
+
+::: notes
+Visa hur man installerar ett paket via Packages-fliken och Install (exemplifiera med tidyverse)
+Skulle även kunna visa hemsidan men gissar att tiden är för knapp.
+:::
+
+## Andra paketkällor (överkurs) {visibility="hidden"}
+
+-   [GitHub](https://github.com/topics/r) (BitBucket, GitLab)
+
+-   [BioConductor](https://new.bioconductor.org/)
+
+-   [R-forge](https://r-forge.r-project.org/)
+
+-   <https://r-universe.dev/search/>
+
+-   "varsom-helst-ifrån" (Zip-filer etc från hemsidor/kollegor/byrålådor)
+
+## Använda funktioner från installerade paket
+
+-   Installerade paket måste pekas ut explicit vid användning:
+
+    -   Ladda hela paketet (rekommenderas i början):
+        -   `library("name_of_package")` + sedan `name_of_function(x, y, x)`
+
+    -   Referera varje funktion explicit varje gång:
+        -   `name_of_package::name_of_function()`
+
+::: notes
+Visa hur det ser ut när man kör library(tidyverse)
+:::
+
+##  {background-image="images/Skärmavbild%202023-11-22%20kl.%2010.52.14.png" background-size="contain"}
+
+## R: Tibble
+
+Delar alla egenskaper med data.frames men lite snyggare/modernare
+
+```{r}
+library(tidyverse)
+as_tibble(iris)
+glimpse(iris)
+```
+
+## R: Pipe
+
+`|>` (eller tidigare `%>%`)
+
+```{r eval=FALSE}
+# Alt 1: Modifiera ett objekt stegvis med massa nya nammn på vägen
+steg1 <- foo(x)
+steg2 <- bar(steg1)
+steg3 <- baz(steg2)
+
+# Alt 2: Funktion i funktion i funktion
+steg3 <- baz(bar(foo(x)))
+
+# Alt 3: Med |> (lättare att läsa och skriva)
+steg3 <- x |> foo() |> bar() |> baz()
+```
+
+::: notes
+Visa kortkommando Ctrl/Cmd + Shift + m
+
+Visa hur man kommer till hjälpsidan, kräver ?\`\|\>\` (inkl fnuttar)
+:::
+
+## Att lära sig
+
+-   Google är din vän!
+
+-   Övning ger färdighet!
+
+-   <https://www.r-project.org/help.html>
+
+-   <https://education.rstudio.com/learn/>
+
+-   <https://stackoverflow.com/questions/tagged/r>
+
+
+## Om generativ AI
+
+- ChatGPT etc ger ofta bra hjälp för stabila funktioner från etablerade paket
+- Bygger dock på publicerade kod (GitHub, StackOverflow etc)
+- En del R-paket utvecklas relativt mycket över tid
+- Detta fångas inte alltid av språkmodellerna (upplevs som hallucinationer)
+- Retrieval-Augmented Generation (RAG) kombinerar en generell språkmodell med mer specifik/relevant information
+    - [ragnar](https://ragnar.tidyverse.org/index.html)
+
+
+
+## Överkurs {visibility="hidden"}
+
+Om du programmerat tidigare:
+
+-   interaktivt skriptspråk (kräver ingen kompilering)
+
+-   Ej statistik typat (extremt flexibelt men lätt att skjuta sig själv i foten)
+
+-   Nyttjar viss C/C++/Fortran-kod i bakgrunden
+
+> • Everything that exists is an object.\
+> • Everything that happens is a function call."
+>
+> --- John Chambers
