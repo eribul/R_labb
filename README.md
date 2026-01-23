@@ -1,0 +1,1 @@
+Those are the slides introducing R and RStudio during the R computer session in the LPG010 course at the University of Gothenburg.
