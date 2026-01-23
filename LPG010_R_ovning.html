@@ -294,19 +294,16 @@ citing R packages.</code></pre>
           display:block!important;
       }</style></aside>
 <aside><ol class="aside-footnotes"><li id="fn1"><p>Finns dock <a href="https://r4stats.com/articles/software-reviews/r-gui-comparison/">flera alternativ</a> som också lägger på ett grafiskt gränssnitt</p></li><li id="fn2"><p>Överkurs: dynamiskt typat, non-standard evaluation (“computing on the language”), funktioner är “first class objects” (funktionellt), vektoriserad semantik, copy-on-modify, allt är objekt, flera parallella objektorienterade system, designat för interaktiv analys.</p></li></ol></aside></section>
-<section id="r-när-ska-du-välja-r-istf-spss" class="slide level2 scrollable">
+<section id="r-när-ska-du-välja-r-istf-spss" class="slide level2">
 <h2>R: När ska du välja R istf SPSS?</h2>
 <ul>
 <li><p>Om du lockas av programmering 💻</p></li>
 <li><p>Om du ser en framtid inom kvantitativ forskning (doktorera?) 🧑‍🔬</p></li>
 <li><p>Om du vill kunna göra mer avancerade saker som inte stöds av SPSS</p></li>
-<li><p>Om du vill kunna hantera allt från databearbetning, till analys och raportering</p>
-<ul>
-<li>R+RStudio (med <a href="https://quarto.org">Quarto</a> + vissa tilläggspaket) kan också ersätta behovet av MS Word för rapportskrivning, MS PowerPoint för presentation och EndNote för referenshantering<sup>1</sup></li>
-</ul></li>
+<li><p>Om du vill kunna hantera allt från databearbetning, till analys och raportering</p></li>
 <li><p>Om din handledare tycker det 😀</p></li>
 </ul>
-<aside><ol class="aside-footnotes"><li id="fn3"><p>men kombinera då med <a href="https://www.zotero.org">Zotero</a> istället.</p></li></ol></aside></section>
+</section>
 <section id="rstudio" class="slide level2">
 <h2>RStudio</h2>
 <ul>
@@ -447,7 +444,7 @@ citing R packages.</code></pre>
           overflow: hidden!important;
           display:block!important;
       }</style></aside>
-<aside><ol class="aside-footnotes"><li id="fn4"><p>Vi återkommer till vad ett “paket” är senare.</p></li></ol></aside></section>
+<aside><ol class="aside-footnotes"><li id="fn3"><p>Vi återkommer till vad ett “paket” är senare.</p></li></ol></aside></section>
 <section id="r-vektorer" class="slide level2">
 <h2>R: Vektorer</h2>
 <div class="cell">
@@ -533,7 +530,7 @@ citing R packages.</code></pre>
 </div>
 </div></li>
 </ul>
-<aside><ol class="aside-footnotes"><li id="fn5"><p>Överkurs: ibland behöver man göra skillnad på olika sorters <code>NA</code>genom att skriva t ex <code>NA_integer_, NA_character_, NA_real_, ...</code></p></li></ol></aside></section>
+<aside><ol class="aside-footnotes"><li id="fn4"><p>Överkurs: ibland behöver man göra skillnad på olika sorters <code>NA</code> genom att skriva t ex <code>NA_integer_, NA_character_, NA_real_, ...</code></p></li></ol></aside></section>
 <section id="r-hantera-saknade-värden" class="slide level2">
 <h2>R: Hantera saknade värden</h2>
 <ul>
@@ -650,13 +647,14 @@ citing R packages.</code></pre>
           overflow: hidden!important;
           display:block!important;
       }</style></aside>
-<aside><ol class="aside-footnotes"><li id="fn6"><p>Överkurs: Inte så noga med mellanslag/tabbar/radlängder etc i början men at använda en <a href="https://style.tidyverse.org/">stil-guide</a> rekommenderas för större projekt!</p></li></ol></aside></section>
+<aside><ol class="aside-footnotes"><li id="fn5"><p>Överkurs: Inte så noga med mellanslag/tabbar/radlängder etc i början men at använda en <a href="https://style.tidyverse.org/">stil-guide</a> rekommenderas för större projekt! Detta kan automatiseras mha tillägget <a href="https://posit-dev.github.io/air/editor-rstudio.html">Air</a>.</p></li></ol></aside></section>
 <section id="rstudio-quarto" class="slide level2">
 <h2>RStudio: Quarto</h2>
 <ul>
 <li><p>Blanda kommentarer/R-kod/figurer/tabeller i ett och samma dokument</p></li>
 <li><p>Fungerar lite som en vanlig orbehandlare</p></li>
 <li><p>Denna presentation är gjord på detta sätt!</p></li>
+<li><p>R+RStudio (med <a href="https://quarto.org">Quarto</a> + vissa tilläggspaket) kan helt ersätta behovet av MS Word för rapportskrivning, MS PowerPoint för presentation och EndNote för referenshantering</p></li>
 </ul>
 <aside class="notes">
 <p>Skapa Quarto-dokument. Fyll i via GUI. Exekvera med default-värden.</p>
@@ -697,17 +695,17 @@ citing R packages.</code></pre>
 <section id="r-sökvägar" class="slide level2">
 <h2>R: Sökvägar</h2>
 <ul>
-<li><p>I Windows: Byt ut <code>\</code> mot <code>/</code> vid referens till fil:</p>
+<li><p>I Windows: Byt ut <code>\</code> mot <code>/</code> (alt <code>\\</code>) vid referens till fil:</p>
 <ul>
 <li><del><code>C:\User\banane\Documents\nice_project</code></del></li>
 <li><code>C:/User/banane/Documents/nice_project</code></li>
 </ul></li>
 <li><p>Använd <em>relativa</em> sökvägar inom projektet</p>
 <ul>
-<li><del><code>C:/User/banane/Documents/nice_project/data/my_data.csv</code></del></li>
-<li><code>data/my_data.csv</code></li>
+<li><del><code>C:/User/banane/Documents/nice_project/data/my_data.xlsx</code></del></li>
+<li><code>data/my_data.xlsx</code></li>
 </ul></li>
-<li><p>t ex: <code>df &lt;- read.csv("data/my_data.csv")</code></p></li>
+<li><p>t ex: <code>df &lt;- readxl::read_excel("data/my_data.xlsx")</code></p></li>
 </ul>
 </section>
 <section id="rrstudio-paket" class="slide level2">
@@ -861,8 +859,18 @@ $ Species      &lt;fct&gt; setosa, setosa, setosa, setosa, setosa, setosa, setos
 <li><p><a href="https://stackoverflow.com/questions/tagged/r" class="uri">https://stackoverflow.com/questions/tagged/r</a></p></li>
 </ul>
 </section>
-<section id="section-1" class="slide level2" data-background-image="images/Skärmavbild%202023-11-22%20kl.%2009.15.50.png" data-background-size="contain">
-<h2></h2>
+<section id="om-generativ-ai" class="slide level2">
+<h2>Om generativ AI</h2>
+<ul>
+<li>ChatGPT etc ger ofta bra hjälp för stabila funktioner från etablerade paket</li>
+<li>Bygger dock på publicerade kod (GitHub, StackOverflow etc)</li>
+<li>En del R-paket utvecklas relativt mycket över tid</li>
+<li>Detta fångas inte alltid av språkmodellerna (upplevs som hallucinationer)</li>
+<li>Retrieval-Augmented Generation (RAG) kombinerar en generell språkmodell med mer specifik/relevant information
+<ul>
+<li><a href="https://ragnar.tidyverse.org/index.html">ragnar</a></li>
+</ul></li>
+</ul>
 </section>
 
 
